@@ -8,21 +8,25 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $c = curl_init();
-        curl_setopt_array($c, Array(CURLOPT_URL => 'https://www.commitstrip.com/en/feed/',CURLOPT_RETURNTRANSFER => TRUE));
-        $d = curl_exec($c);curl_close($c);
-        $x = simplexml_load_string($d, 'SimpleXMLElement', LIBXML_NOCDATA);
-        $c=$x->channel;
-        $n= count($x->channel->item);
-        $ls = array();
-        for($I=1; $I<$n;$I++){$h=$c->item[$I]->link;;${"ls"}[$I]=(string)$h[0];}
+        // so lets start by giving theyse cursed variables a meaningfull names xd
+
+        $curlInitialVar = curl_init();
+        curl_setopt_array($curlInitialVar, Array(CURLOPT_URL => 'https://www.commitstrip.com/en/feed/',CURLOPT_RETURNTRANSFER => TRUE));
+        $curlExecution = curl_exec($curlInitialVar);curl_close($curlInitialVar);
+        $data = simplexml_load_string($curlExecution, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $channels = $data->channel;
+        
+        $numberOfChannels = count($data->channel->item);
+        dd($numberOfChannels);
+        $imagePageLinks = array();
+        for($I=1; $I<$n;$I++){$h=$curlInitialVar->item[$I]->link;;${"ls"}[$I]=(string)$h[0];}
         for($I=1; $I<count($x->channel->item);$I++){
-            if(!!substr_count((string)$c->item[$I]->children("content", true), 'jpg')<0){${"ls"}[$I] = "";}
-            if(!!substr_count((string)$c->item[$I]->children("content", true), 'JPG')<0){${"ls"}[$I] = "";}
-            if(!!substr_count((string)$c->item[$I]->children("content", true), 'GIF')<0){${"ls"}[$I] = "";}
-            if(!!substr_count((string)$c->item[$I]->children("content", true), 'gif')<0){${"ls"}[$I] = "";}
-            if(!!substr_count((string)$c->item[$I]->children("content", true), 'PNG')<0){${"ls"}[$I] = "";}
-            if(!!substr_count((string)$c->item[$I]->children("content", true), '.png')<0){${"ls"}[$I] = "";}
+            if(!!substr_count((string)$curlInitialVar->item[$I]->children("content", true), 'jpg')<0){${"ls"}[$I] = "";}
+            if(!!substr_count((string)$curlInitialVar->item[$I]->children("content", true), 'JPG')<0){${"ls"}[$I] = "";}
+            if(!!substr_count((string)$curlInitialVar->item[$I]->children("content", true), 'GIF')<0){${"ls"}[$I] = "";}
+            if(!!substr_count((string)$curlInitialVar->item[$I]->children("content", true), 'gif')<0){${"ls"}[$I] = "";}
+            if(!!substr_count((string)$curlInitialVar->item[$I]->children("content", true), 'PNG')<0){${"ls"}[$I] = "";}
+            if(!!substr_count((string)$curlInitialVar->item[$I]->children("content", true), '.png')<0){${"ls"}[$I] = "";}
         }
 
         $j="";
@@ -35,13 +39,13 @@ class HomeController extends Controller
             ${"ls2"}[$II]=$h;
         }
 
-        foreach($ls as $k=>$v){
+        foreach($imagePageLinks as $k=>$v){
             if(empty($f))$f=array();
-            if($this->duplicate($ls,$ls2)==false) $f[$k]=$v;
+            if($this->duplicate($imagePageLinks,$ls2)==false) $f[$k]=$v;
         }
         foreach($ls2 as $k2=>$v2){
             if(empty($f))$f=array();
-            if($this->duplicate($ls2,$ls)==false) $f[$k2]=$v2;
+            if($this->duplicate($ls2,$imagePageLinks)==false) $f[$k2]=$v2;
         }
 
         $j=0;
