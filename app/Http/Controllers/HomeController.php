@@ -19,15 +19,13 @@ class HomeController extends Controller
         $numberOfChannels = count($data->channel->item);
         dd($numberOfChannels);
         $imagePageLinks = array();
-        for($I=1; $I<$n;$I++){$h=$curlInitialVar->item[$I]->link;;${"ls"}[$I]=(string)$h[0];}
-        for($I=1; $I<count($x->channel->item);$I++){
-            if(!!substr_count((string)$curlInitialVar->item[$I]->children("content", true), 'jpg')<0){${"ls"}[$I] = "";}
-            if(!!substr_count((string)$curlInitialVar->item[$I]->children("content", true), 'JPG')<0){${"ls"}[$I] = "";}
-            if(!!substr_count((string)$curlInitialVar->item[$I]->children("content", true), 'GIF')<0){${"ls"}[$I] = "";}
-            if(!!substr_count((string)$curlInitialVar->item[$I]->children("content", true), 'gif')<0){${"ls"}[$I] = "";}
-            if(!!substr_count((string)$curlInitialVar->item[$I]->children("content", true), 'PNG')<0){${"ls"}[$I] = "";}
-            if(!!substr_count((string)$curlInitialVar->item[$I]->children("content", true), '.png')<0){${"ls"}[$I] = "";}
+        $imagePageLinks2 = array();
+        for ($I = 1; $I < $numberOfChannels; $I++) {
+            $fopen = $channels->item[$I]->link;;
+            ${"imagePageLinks"}[$I] = (string)$fopen[0];
         }
+
+        $types = array('jpg', 'JPG', 'GIF', 'gif', 'PNG', '.png');
 
         $j="";
         $h = @fopen("https://newsapi.org/v2/top-headlines?country=ma&apiKey=7b8966140fe9405bad22f7072d507072", "r");
