@@ -1,0 +1,17 @@
+# import threading 
+# mx = threading.Lock()
+# if mx.acquire():
+#     print("Good", end=" ")
+#     mx.release()
+# if mx.acquire():
+#     print("job")
+#     mx.release()
+
+# Python: The following code in its current state cannot print the message "Good job", can you correct the mistake and explain why? 
+
+import threading 
+mx = threading.Lock()
+if mx.acquire():
+    print("Good", end=" ")
+if mx.acquire():
+    print("job")
